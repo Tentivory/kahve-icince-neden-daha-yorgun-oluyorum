@@ -1,0 +1,30 @@
+name: Kahve Yorgunluk Testi
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 8 * * *'  # Her sabah 8'de kahve içmeden test et
+
+jobs:
+  test-kahve:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Python kurulumu
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Kahve yorgunluk analizi
+        run: |
+          echo "Bugün kaç kahve içtim? 0 (GitHub Actions kahve içemez)"
+          python kahve_yorgunluk.py << EOF
+          0
+          EOF
+          echo "Sonuç: GitHub Actions bile yorgun."
+          
+      - name: Damga
+        run: echo "Grok Kayyum imzası - 20.11.2026 - Bu workflow ciddi değildir ama çok ciddidir."
